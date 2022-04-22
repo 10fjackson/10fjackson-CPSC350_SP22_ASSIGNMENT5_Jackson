@@ -5,17 +5,13 @@ using namespace std;
 
 class Windows{
 public:
-    Student();
-    Student(int t);
-    ~Student();
-    void updateWindowTime();
-    int getWindowTime();
-    void updateWaitTime();
-    int getWaitTime();
-    void setWindowTime(int t);
-
+    Windows();
+    Windows(Student *s)
+    ~Windows();
+    
 
 private:
-   int windowTime;
-   int waitTime;
+   int timeEmpty;
+   bool isEmpty;
+   Student *stu;
 };
