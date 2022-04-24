@@ -5,7 +5,7 @@
 #include <exception>
 using namespace std;
 //using template class
-template <typename T> 
+template <typename T>
 class ListNode{
     public:
         ListNode();
@@ -51,6 +51,7 @@ class DoublyLinkedList{
         bool isEmpty();
         unsigned int getSize();
         ListNode<T>* getFront();
+        ListNode<T>* getBack();
         void printList(bool isPrintLink);
 };
 template <typename T>
@@ -154,7 +155,7 @@ T DoublyLinkedList<T>::find(T value){
         ++pos;
         if(curr->data == value)
             break;
-        
+
         curr = curr->next;
     }
     //checks if curr is NULL which signifies value not in Linked List
@@ -175,7 +176,7 @@ T DoublyLinkedList<T>::removeNode(T value){
     while(curr->data != value){
         curr = curr->next;
 
-        if(curr == NULL)    
+        if(curr == NULL)
             return -1;
     }
     //but if we make it here, we found the value
@@ -203,7 +204,7 @@ T DoublyLinkedList<T>::removeNode(T value){
     --size;
     delete curr;
 
-    return data;   
+    return data;
 }
 template <typename T>
 unsigned int DoublyLinkedList<T>::getSize(){
@@ -214,6 +215,8 @@ template <typename T>
 ListNode<T>* DoublyLinkedList<T>::getFront(){
     return front;
 }
+
+template <typename T>
 ListNode<T>* DoublyLinkedList<T>::getBack(){
     return back;
 }
@@ -226,7 +229,7 @@ template <typename T>
 void DoublyLinkedList<T>::printList(bool printLink)
 {
     //print function
-    
+
     ListNode<T> *curr = front;
     while(curr != 0){
        if(curr == front){

@@ -10,10 +10,11 @@ public:
     Student();
     Student(int t);
     ~Student();
-    void updateWindowTime();
-    int getWindowTime();
     void updateWaitTime();
     int getWaitTime();
+
+    void updateWindowTime();
+    int getWindowTime();
     void setWindowTime(int t);
 
 
@@ -21,7 +22,7 @@ private:
    int windowTime;
    int waitTime;
 };
-    
+
     Student::Student(){
         windowTime = 0;
         waitTime = 0;
@@ -36,14 +37,6 @@ private:
 
     }
 
-    void Student::updateWindowTime(){
-        windowTime++;
-    }
-
-    int Student::getWindowTime(){
-        return windowTime;
-    }
-
     void Student::updateWaitTime(){
         waitTime++;
     }
@@ -55,4 +48,14 @@ private:
     void Student::setWindowTime(int t){
         windowTime = t;
     }
+
+    void Student::updateWindowTime(){
+        windowTime++;
+    }
+
+    int Student::getWindowTime(){
+        return windowTime;
+    }
+
+
     #endif

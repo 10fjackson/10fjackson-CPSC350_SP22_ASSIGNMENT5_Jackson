@@ -14,6 +14,7 @@ class GenQueue{
     void insert(T data);
     void enqueue(T data);
     T remove(); //aka front()
+    T peak();
 
     //aux functions
     bool isEmpty();
@@ -71,6 +72,11 @@ T GenQueue<T>::remove(){
 template <typename T>
 bool GenQueue<T>::isEmpty(){
   return (rear == NULL);
+}
+
+template <typename T>
+T GenQueue<T>::peak(){
+    return myArray->getFront();
 }
 
 //No isFull function needed
