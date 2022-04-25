@@ -15,8 +15,19 @@ public:
     void processFile(string file);
     void createSimulation(string text);
 
-    GenQueue *g = new GenQueue();
-    Windows *w;
+    GenQueue<Student> *queue;
+    Windows **w;
+    Windows *empty = new Windows();
+    GenQueue<int> *waitTimes;
+    GenQueue<int> *emptyTimes;
+    int worldClock = 0;
+    int numOpenWindows = 0;
+    int numStudentsArrived = 0;
+    int timeNeeded = 0;
+    int numberStudents = 0;
+    int cap = 0;
+    int time = 0;
+
 
 private:
 
@@ -54,15 +65,47 @@ void Simulation::processFile(string file) //takes in a file from the command lin
 void Simulation::createSimulation(string text)
 {
     int i = 0;
-    w = new Windows(text[i++]);
-    while(i < text.length()){
-        w.setWindowTime(text[i++]);
-        w.setNumberStudent(text[i++])
-        for(int j = 0; j < w.getNumberStudent(); j++){
-            Student *s = new Student(text[i++]);
-            g.insert(s);
-            cout << g.peak() << endl;
+    cap = text[i++];
+    w = new Windows *[cap];
+    for(int k = 0; k < cap; k++){
+        w[i] = new Windows();
+    }
+    time = text[i++];
+    while(i < text.length() || numOpenWindows != 0){
+        worldClock++;
+        
+        if(worldClock == time){
+
+            numberStudents = text[i++];
+
+            for(int j = 0; j < numberStudents; j++){
+                Student *s = new Student(text[i++]);
+                queue.insert(s);
+                cout << queue.peak() << endl;
+            }
+
+            int c = 0;
+
+            while(c < cap && queue->!(isEmpty())){
+                
+                if(w[c]->isBusy()){
+                    if(w[c]->timeNeeded() == 0){
+                     w[c]->setEmpty();
+                    }
+                }
+
+                if(w[c]->isEmpty()){
+                    w[c]->setBusy(queue.remove());
+                }
+
+                c++;
+            }
+            time = text[i++];
 
         }
+        else{
+            //update student and window variables
+        }
     }
+
 }

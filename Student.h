@@ -50,7 +50,7 @@ private:
     }
 
     void Student::updateWindowTime(){
-        windowTime++;
+        windowTime--;
     }
 
     int Student::getWindowTime(){

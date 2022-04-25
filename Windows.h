@@ -6,86 +6,64 @@ using namespace std;
 class Windows{
 public:
     Windows();
-    Windows(int windows);
+    Windows(Student *s);
     ~Windows();
-
-    void setWindows(int windows);
-    int getWindowsOpen();
-    bool isWindowOpen();
-    void updateWindowsOpen();
-
-    void updateTime();
-    int getTime();
-    void setTime(int t);
-
-    void setNumberStudent(int students);
-    int getNumberStudent();
-
-
+    void updateTimeEmpty();
+    int getIdleTime();
+    void setBusy(Student *s);
+    void setEmpty();
+    bool isEmpty();
+    int timeNeeded();
 
 private:
    int timeEmpty;
    bool isEmpty;
    Student *stu;
-   int numberWindows;
-   int numberWindowsOpen;
-   int numberStudent;
-   int windowTime;
 };
 
-Windows::Windows(){
-    numberWindows = 0;
-    numberWindowsOpen = 0;
-}
-
-Windows::Windows(int windows){
-    numberWindows = windows;
-    numberWindowsOpen = windows;
-}
-
-Windows::~Windows(){
-
-}
-
-void Windows::setWindows(int windows){
-    numberWindows = windows;
-    numberWindowsOpen = windows;
-}
-
-int Windows::getWindowsOpen(){
-    return numberWindowsOpen;
-}
-
-bool Windows::isWindowOpen(){
-    if(numberWindowsOpen == 0){
-        return false;
-    } else {
-        return true;
+    Windows(){
+        timeEmpty = 0;
+        isEmpty = true;
+        stu = NULL;
     }
-}
+    Windows(Student *s){
+        timeEmpty = 0;
+        isEmpty = true;
+        stu = s;
+    }
+    ~Windows(){
 
-void Windows::updateWindowsOpen(){
-    numberWindowsOpen--;
-}
-
-void Windows::setTime(int t){
-    windowTime = t;
-}
-
-void Windows::updateTime(){
-    windowTime++;
-}
-
-int Windows::getTime(){
-    return windowTime;
-}
-
-void Windows::setNumberStudent(int students){
-    numberStudent = students;
-}
-
-int Windows::getNumberStudent(){
-    return numberStudent;
-}
+    }
+    void updateTimeEmpty(int t){
+        timeEmpty = t;
+    }
+    int getTimeEmpty(){
+        return timeEmpty;
+    }
+    void setBusy(Student *s){
+        isEmpty = false;
+        stu = s;
+    }
+    void setEmpty(){
+        isEmpty = true;
+        stu = NULL;
+    }
+    bool isBusy(){
+        if(isEmpty){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    bool isEmpty(){
+        return isEmpty;
+    }
+    int timeNeeded(){
+        return stu->getWindowTime();
+    }
+    void decreseWindowTime(){
+        stu->updateWindowTime();
+    }
 
 #endif
