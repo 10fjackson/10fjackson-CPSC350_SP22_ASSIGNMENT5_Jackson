@@ -19,7 +19,7 @@ public:
     Windows **w;
     Windows *empty = new Windows();
     GenQueue<int> *waitTimes;
-    GenQueue<int> *IdleTimes;
+    GenQueue<int> *idleTimes;
     int worldClock = 0;
     int numOpenWindows = 0;
     int numStudentsArrived = 0;
@@ -73,7 +73,7 @@ void Simulation::createSimulation(string text)
     time = text[i++];
     while(i < text.length() || numOpenWindows != 0){
         worldClock++;
-
+        
         if(worldClock == time){
 
             numberStudents = text[i++];
@@ -87,7 +87,7 @@ void Simulation::createSimulation(string text)
             int c = 0;
 
             while(c < cap && queue->!(isEmpty())){
-
+                
                 if(w[c]->isBusy()){
                     if(w[c]->timeNeeded() == 0){
                      w[c]->setEmpty();
@@ -110,6 +110,14 @@ void Simulation::createSimulation(string text)
 
 }
 
+void updateIdleTime(Windows **w){
+    for(int i = 0; i < cap; i++){
+        if(w[i]->isEmpty()){
+            w[i]->updateIdleTime();
+        }
+    }
+}
+
 void Simulation::updateWaitTime(GenQueue<Student> *q){
     int i = 0;
     while(i <= q->getSize()){
@@ -118,8 +126,4 @@ void Simulation::updateWaitTime(GenQueue<Student> *q){
         q->insert(data);
         i++;
     }
-}
-
-void Simulation::updateIdleTime(){
-
 }
