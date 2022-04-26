@@ -19,7 +19,7 @@ public:
     Windows **w;
     Windows *empty = new Windows();
     GenQueue<int> *waitTimes;
-    GenQueue<int> *emptyTimes;
+    GenQueue<int> *IdleTimes;
     int worldClock = 0;
     int numOpenWindows = 0;
     int numStudentsArrived = 0;
