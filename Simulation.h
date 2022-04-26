@@ -73,7 +73,7 @@ void Simulation::createSimulation(string text)
     time = text[i++];
     while(i < text.length() || numOpenWindows != 0){
         worldClock++;
-        
+
         if(worldClock == time){
 
             numberStudents = text[i++];
@@ -87,7 +87,7 @@ void Simulation::createSimulation(string text)
             int c = 0;
 
             while(c < cap && queue->!(isEmpty())){
-                
+
                 if(w[c]->isBusy()){
                     if(w[c]->timeNeeded() == 0){
                      w[c]->setEmpty();
@@ -107,5 +107,19 @@ void Simulation::createSimulation(string text)
             //update student and window variables
         }
     }
+
+}
+
+void Simulation::updateWaitTime(GenQueue<Student> *q){
+    int i = 0;
+    while(i <= q->getSize()){
+        Student *s = q->remove();
+        s->updateWindowTime();
+        q->insert(data);
+        i++;
+    }
+}
+
+void Simulation::updateIdleTime(){
 
 }

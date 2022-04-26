@@ -100,6 +100,7 @@ void DoublyLinkedList<T>::insertBack(T d){
     back = node;
     ++size;
 }
+
 template <typename T>
 T DoublyLinkedList<T>::removeFront(){
     if(isEmpty()){
