@@ -17,6 +17,7 @@ public:
     int getTimeEmpty();
     bool isBusy();
     void decreseWindowTime();
+    int getStudentWaitTime();
 
 private:
    int timeEmpty;
@@ -25,80 +26,62 @@ private:
 };
 
 Windows::Windows(){
-        timeEmpty = 0;
-        isOpen = true;
-        stu = NULL;
-    }
+    timeEmpty = 0;
+    isOpen = true;
+    stu = NULL;
+}
+
 Windows::Windows(Student *s){
-        timeEmpty = 0;
-        isOpen = true;
-        stu = s;
-    }
+    timeEmpty = 0;
+    isOpen = true;
+    stu = s;
+}
+
 Windows::~Windows(){
 
-    }
-<<<<<<< HEAD
+}
+
 void Windows::updateTimeEmpty(int t){
-        timeEmpty = t;
-    }
+    timeEmpty = t;
+}
+
 int Windows::getTimeEmpty(){
-        return timeEmpty;
-    }
+    return timeEmpty;
+}
+
 void Windows::setBusy(Student *s){
-        isOpen = false;
-        stu = s;
-    }
+    isOpen = false;
+    stu = s;
+}
 void Windows::setEmpty(){
-        isOpen = true;
-        stu = NULL;
-    }
+    isOpen = true;
+    stu = NULL;
+}
+
 bool Windows::isBusy(){
-        if(isOpen){
-=======
-    void Windows::updateTimeEmpty(int t){
-        timeEmpty = t;
+    if(isOpen){
+        return false;
     }
-    int Windows::getTimeEmpty(){
-        return timeEmpty;
+    else{
+        return true;
     }
-    void Windows::setBusy(Student *s){
-        isEmpty = false;
-        stu = s;
-    }
-    void Windows::setEmpty(){
-        isEmpty = true;
-        stu = NULL;
-    }
-    bool Windows::isBusy(){
-        if(isEmpty){
->>>>>>> 59cd294070bfda9ce8d78001a82ae8eb48733898
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
-<<<<<<< HEAD
+}
+
 bool Windows::isEmpty(){
         return isOpen;
-    }
+}
+
 int Windows::timeNeeded(){
         return stu->getWindowTime();
-    }
+}
+
 void Windows::decreseWindowTime(){
-=======
-    bool Windows::isEmpty(){
-        return isEmpty;
-    }
-    int Windows::timeNeeded(){
-        return stu->getWindowTime();
-    }
-    void Windows::decreseWindowTime(){
->>>>>>> 59cd294070bfda9ce8d78001a82ae8eb48733898
         stu->updateWindowTime();
-    }
-    int Windows::getStudentWaitTime(){
+}
+
+int Windows::getStudentWaitTime(){
         return stu->getWaitTime();
-    }
+
+}
 
 #endif
