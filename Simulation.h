@@ -15,6 +15,22 @@ public:
     void processFile(string file);
     void createSimulation(string text);
 
+    void updateWaitTime(GenQueue<Student> *q);
+    void updateIdleTime(Windows **w);
+
+
+    void printStatistics();
+    float meanStudentWaitTime();
+    int medianStudentWaitTime();
+    int maxStudentWaitTime();
+    int studentOver10Min();
+    float meanIdleTime();
+    int maxIdleTime();
+    int windowsOver5Min();
+
+
+
+
     GenQueue<Student> *queue;
     Windows **w;
     Windows *empty = new Windows();
@@ -115,7 +131,7 @@ void Simulation::createSimulation(string text)
 
 }
 
-void updateIdleTime(Windows **w){
+void Simulation::updateIdleTime(Windows **w){
     for(int i = 0; i < cap; i++){
         if(w[i]->isEmpty()){
             w[i]->updateIdleTime();
@@ -144,7 +160,7 @@ void Simulation::printStatistics(){
     cout << "Number of windows that were idle for over 5 minutes = " << windowsOver5Min() << endl;
 }
 
-void Simulation::meanStudentWaitTime(){
+float Simulation::meanStudentWaitTime(){
     int totalWaitTime = 0;
     int count = 0;
     while(count <= waitTimes->getSize()){
@@ -162,7 +178,7 @@ void Simulation::medianStudentWaitTime(){
 
 }
 
-void Simulation::maxStudentWaitTime(){
+int Simulation::maxStudentWaitTime(){
     studentMaxWait = 0;
     int count = 0;
     while(i <= waitTimes->getSize()){
@@ -176,7 +192,7 @@ void Simulation::maxStudentWaitTime(){
     return studentMaxWait;
 }
 
-void Simulation::studentOver10Min(){
+int Simulation::studentOver10Min(){
     student10Min = 0;
     int count = 0;
     while(count <= waitTimes->getSize()){
@@ -190,8 +206,8 @@ void Simulation::studentOver10Min(){
     return student10Min;
 }
 
-void Simulation::meanIdleTime(){
-    float totalIdleTime = 0;
+float Simulation::meanIdleTime(){
+    int totalIdleTime = 0;
     int count = 0;
     while(count <= idleTimes->getSize()){
         int data = idleTimes -> remove();
@@ -204,7 +220,7 @@ void Simulation::meanIdleTime(){
     return averageIdleTime;
 }
 
-void Simulation::maxIdleTime(){
+int Simulation::maxIdleTime(){
     maxIdle = 0;
     int count = 0;
     while(i <= idleTimes->getSize()){
@@ -218,7 +234,7 @@ void Simulation::maxIdleTime(){
     return maxIdle;
 }
 
-void Simulation::windowsOver5Min(){
+int Simulation::windowsOver5Min(){
     idle5Min = 0;
     int count = 0;
     while(count <= idleTimes->getSize()){

@@ -8,61 +8,64 @@ public:
     Windows();
     Windows(Student *s);
     ~Windows();
-    void updateTimeEmpty();
+    void updateTimeEmpty(int t);
     int getIdleTime();
     void setBusy(Student *s);
     void setEmpty();
     bool isEmpty();
     int timeNeeded();
+    int getTimeEmpty();
+    bool isBusy();
+    void decreseWindowTime();
 
 private:
    int timeEmpty;
-   bool isEmpty;
+   bool isOpen;
    Student *stu;
 };
 
-    Windows(){
+Windows::Windows(){
         timeEmpty = 0;
-        isEmpty = true;
+        isOpen = true;
         stu = NULL;
     }
-    Windows(Student *s){
+Windows::Windows(Student *s){
         timeEmpty = 0;
-        isEmpty = true;
+        isOpen = true;
         stu = s;
     }
-    ~Windows(){
+Windows::~Windows(){
 
     }
-    void updateTimeEmpty(int t){
+void Windows::updateTimeEmpty(int t){
         timeEmpty = t;
     }
-    int getTimeEmpty(){
+int Windows::getTimeEmpty(){
         return timeEmpty;
     }
-    void setBusy(Student *s){
-        isEmpty = false;
+void Windows::setBusy(Student *s){
+        isOpen = false;
         stu = s;
     }
-    void setEmpty(){
-        isEmpty = true;
+void Windows::setEmpty(){
+        isOpen = true;
         stu = NULL;
     }
-    bool isBusy(){
-        if(isEmpty){
+bool Windows::isBusy(){
+        if(isOpen){
             return false;
         }
         else{
             return true;
         }
     }
-    bool isEmpty(){
-        return isEmpty;
+bool Windows::isEmpty(){
+        return isOpen;
     }
-    int timeNeeded(){
+int Windows::timeNeeded(){
         return stu->getWindowTime();
     }
-    void decreseWindowTime(){
+void Windows::decreseWindowTime(){
         stu->updateWindowTime();
     }
 
