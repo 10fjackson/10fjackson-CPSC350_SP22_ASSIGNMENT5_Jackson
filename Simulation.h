@@ -24,6 +24,7 @@ public:
     int medianStudentWaitTime();
     int maxStudentWaitTime();
     int studentOver10Min();
+
     float meanIdleTime();
     int maxIdleTime();
     int windowsOver5Min();
@@ -45,6 +46,13 @@ public:
 
 
 private:
+    float averageWaitTime;
+    int studentMaxWait;
+    int student10Min;
+
+    float averageIdleTime;
+    int maxIdle;
+    int idle5Min;
 
 };
 //Default Constructor
@@ -90,7 +98,7 @@ void Simulation::createSimulation(string text)
     while(i < text.length() || numOpenWindows != cap){
         //every loop is 1 minute passed/one tick on the world clock
         worldClock++;
-        
+
         if(worldClock == time){
 
             numberStudents = text[i++];
@@ -163,7 +171,7 @@ void Simulation::createSimulation(string text)
                     numOpenWindows--;
                 }
                 p++;
-            } 
+            }
             //updates the idle time of the open windows
             updateIdleTime(w);
             //updates the wait time of the people in the queue
@@ -182,13 +190,14 @@ void Simulation::updateIdleTime(Windows **w){
         }
     }
 }
+
 //updates the wait time of the people in the queue
 void Simulation::updateWaitTime(GenQueue<Student> *q){
-    int l = 0;
-    while(l < q->getSize()){
-        Student *s = q->remove();
-        s->updateWindowTime();
-        q->insert(data);
+    int i = 0;
+    while(i < q->getSize()){
+        Student s = q->remove();
+        s.updateWindowTime();
+        q->insert(s);
         i++;
     }
 }
@@ -218,14 +227,14 @@ float Simulation::meanStudentWaitTime(){
     return averageWaitTime;
 }
 
-void Simulation::medianStudentWaitTime(){
+int Simulation::medianStudentWaitTime(){
 
 }
 
 int Simulation::maxStudentWaitTime(){
     studentMaxWait = 0;
     int count = 0;
-    while(i <= waitTimes->getSize()){
+    while(count <= waitTimes->getSize()){
         int data = waitTimes -> remove();
         if(data > studentMaxWait){
             studentMaxWait = data;
@@ -267,7 +276,7 @@ float Simulation::meanIdleTime(){
 int Simulation::maxIdleTime(){
     maxIdle = 0;
     int count = 0;
-    while(i <= idleTimes->getSize()){
+    while(count <= idleTimes->getSize()){
         int data = idleTimes -> remove();
         if(data > maxIdle){
             maxIdle = data;

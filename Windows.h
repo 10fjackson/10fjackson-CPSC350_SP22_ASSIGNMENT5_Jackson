@@ -17,6 +17,7 @@ public:
     int getTimeEmpty();
     bool isBusy();
     void decreseWindowTime();
+    int getStudentWaitTime();
 
 private:
    int timeEmpty;
@@ -25,32 +26,37 @@ private:
 };
 
 Windows::Windows(){
-        timeEmpty = 0;
-        isOpen = true;
-        stu = NULL;
-    }
+    timeEmpty = 0;
+    isOpen = true;
+    stu = NULL;
+}
+
 Windows::Windows(Student *s){
-        timeEmpty = 0;
-        isOpen = true;
-        stu = s;
-    }
+    timeEmpty = 0;
+    isOpen = true;
+    stu = s;
+}
+
 Windows::~Windows(){
 
     }
 void Windows::updateTimeEmpty(int t){
-        timeEmpty = t;
-    }
+    timeEmpty = t;
+}
+
 int Windows::getTimeEmpty(){
-        return timeEmpty;
-    }
+    return timeEmpty;
+}
+
 void Windows::setBusy(Student *s){
-        isOpen = false;
-        stu = s;
-    }
+    isOpen = false;
+    stu = s;
+}
 void Windows::setEmpty(){
-        isOpen = true;
-        stu = NULL;
-    }
+    isOpen = true;
+    stu = NULL;
+}
+
 bool Windows::isBusy(){
         if(isOpen){
             return false;
@@ -61,15 +67,19 @@ bool Windows::isBusy(){
     }
 bool Windows::isEmpty(){
         return isOpen;
-    }
+}
+
 int Windows::timeNeeded(){
         return stu->getWindowTime();
-    }
+}
+
 void Windows::decreseWindowTime(){
         stu->updateWindowTime();
-    }
-    int Windows::getStudentWaitTime(){
+}
+
+int Windows::getStudentWaitTime(){
         return stu->getWaitTime();
-    }
+
+}
 
 #endif

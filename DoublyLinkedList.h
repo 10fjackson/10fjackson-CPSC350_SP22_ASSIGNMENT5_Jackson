@@ -119,11 +119,12 @@ T DoublyLinkedList<T>::removeFront(){
     }
     front = front->next;
     temp->next = NULL;
-    int data = temp->data;
+    T data = temp->data;
     --size;
     delete temp;
     return data;
 }
+
 template <typename T>
 T DoublyLinkedList<T>::removeBack(){
     if(isEmpty()){
