@@ -22,7 +22,6 @@ public:
     GenQueue<int> *idleTimes;
     int worldClock = 0;
     int numOpenWindows = 0;
-    int numStudentsArrived = 0;
     int timeNeeded = 0;
     int numberStudents = 0;
     int cap = 0;
