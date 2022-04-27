@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+//#include <string>
 #include "GenQueue.h"
 #include "DoublyLinkedList.h"
 #include "Student.h"
@@ -14,7 +15,7 @@ public:
     ~Simulation();
 
     void processFile(string file);
-    void createSimulation(string text);
+    void createSimulation();
 
     void updateWaitTime(GenQueue<Student*> *q);
     void updateIdleTime(Windows **w);
@@ -36,6 +37,7 @@ public:
     Windows **w;
     GenQueue<int> *waitTimes;
     GenQueue<int> *idleTimes;
+    GenQueue<int> *text;
     int worldClock = 0;
     int numOpenWindows = 0;
     int timeNeeded = 0;
@@ -66,45 +68,52 @@ Simulation::~Simulation()
 
 void Simulation::processFile(string file) //takes in a file from the command line and sends data to genqueue
 {
-    string text = "";
+    text = new GenQueue<int>;
+    string input = "";
+    string line;
     // takes command line argument
-    ifstream infile(file); //open the file
-
+    ifstream infile;
+    infile.open(file);
+    int value = 0;
     if (infile.is_open() && infile.good()) { // checks if file is good
         //cout << "File is now open!\nContains:\n";
         cout << "File is now open!"<<endl;
         string line = "";
         while (getline(infile, line)){
-            text += line;
-            text += '\n';
-        }
+        value = stoi(line);
+        text->insert(value);
+        input += line;
+        input += "\n";
+    }
         cout<< text <<endl;
     } else {
         cout << "Failed to open file"<<endl;
     }
-    createSimulation(text);
+    createSimulation();
+    infile.close();
 }
 
-void Simulation::createSimulation(string text)
+void Simulation::createSimulation()
 {
-    int i = 0;
-    cap = text[i++];
+    cap = text->remove();
+    cout<<cap<<endl;
     w = new Windows *[cap];
     for(int k = 0; k < cap; k++){
-        w[i] = new Windows();
+        w[k] = new Windows();
     }
     numOpenWindows = cap;
-    time = text[i++];
-    while(i < text.length() || numOpenWindows != cap){
+    time = text->remove();
+    while(!(text->isEmpty()) || numOpenWindows != cap){
+        cout<<"TOP OF MAIN LOOP"<<endl;
         //every loop is 1 minute passed/one tick on the world clock
         worldClock++;
-
+        cout<<worldClock<<"  "<<time<<endl;
         if(worldClock == time){
-
-            numberStudents = text[i++];
+            cout<<"TOP OF TIME LOOP"<<endl;
+            numberStudents = text->remove();
             //adds the students to the queue with their wait times
             for(int j = 0; j < numberStudents; j++){
-                Student *s = new Student(text[i++]);
+                Student *s = new Student(text->remove());
                 queue->insert(s);
             }
 
@@ -140,7 +149,7 @@ void Simulation::createSimulation(string text)
             updateIdleTime(w);
             //updates the wait time of the people in the queue
             updateWaitTime(queue);
-            time = text[i++];
+            time = text->remove();
 
         }
         else{
@@ -157,8 +166,9 @@ void Simulation::createSimulation(string text)
                     }
                     cout<<"window "<< p << " is busy"<<endl;
                 }
-
+                cout<<"before empty loop"<<endl;
                 if(w[p]->isEmpty() && !(queue->isEmpty())){
+                    cout<<"Inside empty window loop"<<endl;
                     //takes student out of queue
                     Student *stu = queue->remove();
                     //how long they have been waiting
@@ -169,6 +179,7 @@ void Simulation::createSimulation(string text)
                     w[p]->setBusy(queue->remove());
                     numOpenWindows--;
                 }
+                cout<<"after empty loop"<<endl;
                 p++;
             }
             //updates the idle time of the open windows
@@ -176,7 +187,7 @@ void Simulation::createSimulation(string text)
             //updates the wait time of the people in the queue
             updateWaitTime(queue);
             //sets time to the next time
-            time = text[i++];
+            time = text->remove();
         }
     }
 
