@@ -111,11 +111,16 @@ void Simulation::createSimulation()
         cout<<worldClock<<"  "<<time<<endl;
         if(worldClock == time){
             cout<<"TOP OF TIME LOOP"<<endl;
-            numberStudents = text->remove();
+            if(!(text->isEmpty())){
+                numberStudents = text->remove();
+            }
             //adds the students to the queue with their wait times
             for(int j = 0; j < numberStudents; j++){
-                Student *s = new Student(text->remove());
-                queue->insert(s);
+                if(!(text->isEmpty())){
+                    Student *s = new Student(text->remove());
+                    queue->insert(s);
+                }
+
             }
 
             int c = 0;
@@ -130,12 +135,14 @@ void Simulation::createSimulation()
                      w[c]->setEmpty();
                      numOpenWindows++;
                     }
-                    cout<<"window "<< c << " is busy"<<endl;
+                    cout<<"Window "<< c << " is busy"<<endl;
                 }
                 if(w[c]->isEmpty() && !(queue->isEmpty())){
                     cout << "top of empty loop" << endl;
                     //takes student out of queue
+
                     Student *stu = queue->remove();
+
                     //how long they have been waiting
                     waitTimes->insert(stu->getWaitTime());
                     //adds the idle time of the window to the list before a student fills it
@@ -151,7 +158,9 @@ void Simulation::createSimulation()
             updateIdleTime(w);
             //updates the wait time of the people in the queue
             updateWaitTime(queue);
-            time = text->remove();
+            if(!(text->isEmpty())){
+                time = text->remove();
+            }
 
         }
         else{
@@ -166,7 +175,7 @@ void Simulation::createSimulation()
                      w[p]->setEmpty();
                      numOpenWindows++;
                     }
-                    cout<<"window "<< p << " is busy"<<endl;
+                    cout<<"Window "<< p << " is busy"<<endl;
                 }
                 cout<<"before empty loop"<<endl;
                 if(w[p]->isEmpty() && !(queue->isEmpty())){
@@ -189,9 +198,13 @@ void Simulation::createSimulation()
             //updates the wait time of the people in the queue
             updateWaitTime(queue);
             //sets time to the next time
-            time = text->remove();
+            if(!(text->isEmpty())){
+                time = text->remove();
+            }
         }
     }
+
+    printStatistics();
 
 }
 
