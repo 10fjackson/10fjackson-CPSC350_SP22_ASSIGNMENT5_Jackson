@@ -16,7 +16,7 @@ public:
     void processFile(string file);
     void createSimulation(string text);
 
-    void updateWaitTime(GenQueue<Student> *q);
+    void updateWaitTime(GenQueue<Student*> *q);
     void updateIdleTime(Windows **w);
 
 
@@ -32,10 +32,8 @@ public:
 
 
 
-
-    GenQueue<Student> *queue;
+    GenQueue<Student*> *queue;
     Windows **w;
-    Windows *empty = new Windows();
     GenQueue<int> *waitTimes;
     GenQueue<int> *idleTimes;
     int worldClock = 0;
@@ -59,7 +57,7 @@ private:
 //Default Constructor
 Simulation::Simulation()
 {
-    queue = new GenQueue<Student>();
+    //queue = new GenQueue<Student>();
 }
 //Default Destructor
 Simulation::~Simulation()
@@ -195,11 +193,11 @@ void Simulation::updateIdleTime(Windows **w){
 }
 
 //updates the wait time of the people in the queue
-void Simulation::updateWaitTime(GenQueue<Student> *q){
+void Simulation::updateWaitTime(GenQueue<Student*> *q){
     int i = 0;
     while(i < q->getSize()){
-        Student s = q->remove();
-        s.updateWindowTime();
+        Student *s = q->remove();
+        s->updateWindowTime();
         q->insert(s);
         i++;
     }
