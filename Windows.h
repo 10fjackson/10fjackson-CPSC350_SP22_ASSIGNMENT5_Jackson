@@ -17,6 +17,7 @@ public:
     bool isBusy();
     void decreseWindowTime();
     int getStudentWaitTime();
+    void updateIdleTime();
 
 private:
    int timeEmpty;
@@ -75,7 +76,9 @@ int Windows::timeNeeded(){
 void Windows::decreseWindowTime(){
         stu->updateWindowTime();
 }
-
+void Windows::updateIdleTime(){
+    timeEmpty++;
+}
 int Windows::getStudentWaitTime(){
         return stu->getWaitTime();
 
