@@ -137,7 +137,7 @@ void Simulation::createSimulation()
                     }
                     cout<<"Window "<< c << " is busy"<<endl;
                 }
-                if(w[c]->isEmpty() && (!(queue->isEmpty()))){
+                if(w[c]->isEmpty() && !(queue->isEmpty())){
                     cout << "top of empty loop" << endl;
                     //takes student out of queue
 
