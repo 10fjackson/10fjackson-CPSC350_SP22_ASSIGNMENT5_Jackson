@@ -70,14 +70,16 @@ void Simulation::createSimulation(string text)
     for(int k = 0; k < cap; k++){
         w[i] = new Windows();
     }
+    numOpenWindows = cap;
     time = text[i++];
-    while(i < text.length() || numOpenWindows != 0){
+    while(i < text.length() || numOpenWindows != cap){
+        //every loop is 1 minute passed/one tick on the world clock
         worldClock++;
         
         if(worldClock == time){
 
             numberStudents = text[i++];
-
+            //adds the students to the queue with their wait times
             for(int j = 0; j < numberStudents; j++){
                 Student *s = new Student(text[i++]);
                 queue.insert(s);
@@ -85,31 +87,79 @@ void Simulation::createSimulation(string text)
             }
 
             int c = 0;
-
-            while(c < cap && queue->!(isEmpty())){
-                
+            //loops through all windows
+            while(c < cap){
+                int count = 0;
                 if(w[c]->isBusy()){
+                    //decreases students needed time at the window by 1 because one minute has gone by
+                    w[c]->decreseWindowTime();
+                    //checks if student is finished using window
                     if(w[c]->timeNeeded() == 0){
                      w[c]->setEmpty();
+                     numOpenWindows++;
                     }
+                    cout<<"window "<< c << " is busy"<<endl;
                 }
 
-                if(w[c]->isEmpty()){
-                    w[c]->setBusy(queue.remove());
+                if(w[c]->isEmpty() && queue->!(isEmpty())){
+                    //takes student out of queue
+                    Student *stu = queue.remove();
+                    //how long they have been waiting
+                    waitTimes->insert(stu->getStudentWaitTime());
+                    //adds the idle time of the window to the list before a student fills it
+                    idleTimes->insert(w[c]->getTimeEmpty());
+                    //puts them at window c
+                    w[c]->setBusy(stu);
+                    numOpenWindows--;
                 }
-
                 c++;
             }
+            //updates the idle time of the open windows
+            updateIdleTime(w);
+            //updates the wait time of the people in the queue
+            updateWaitTime(queue);
             time = text[i++];
 
         }
         else{
-            //update student and window variables
+            int p = 0;
+            while(p < cap){
+                cout<<"ALL WINDOWS FULL"<<endl;
+                if(w[p]->isBusy()){
+                    w[p]->decreseWindowTime();
+                    //checks if student is finished using window
+                    if(w[p]->timeNeeded() == 0){
+                    //if student is finished then it sets the window to empty and number of open windows increases
+                     w[p]->setEmpty();
+                     numOpenWindows++;
+                    }
+                    cout<<"window "<< p << " is busy"<<endl;
+                }
+
+                if(w[c]->isEmpty() && queue->!(isEmpty())){
+                    //takes student out of queue
+                    Student *stu = queue.remove();
+                    //how long they have been waiting
+                    waitTimes->insert(stu->getStudentWaitTime());
+                    //adds the idle time of the window to the list before a student fills it
+                    idleTimes->insert(getTimeEmpty());
+                    //puts them at window c
+                    w[p]->setBusy(queue.remove());
+                    numOpenWindows--;
+                }
+                p++;
+            } 
+            //updates the idle time of the open windows
+            updateIdleTime(w);
+            //updates the wait time of the people in the queue
+            updateWaitTime(queue);
+            //sets time to the next time
+            time = text[i++];
         }
     }
 
 }
-
+//updates the idle time of the open windows
 void updateIdleTime(Windows **w){
     for(int i = 0; i < cap; i++){
         if(w[i]->isEmpty()){
@@ -117,13 +167,14 @@ void updateIdleTime(Windows **w){
         }
     }
 }
-
+//updates the wait time of the people in the queue
 void Simulation::updateWaitTime(GenQueue<Student> *q){
-    int i = 0;
-    while(i <= q->getSize()){
+    int l = 0;
+    while(l < q->getSize()){
         Student *s = q->remove();
         s->updateWindowTime();
         q->insert(data);
         i++;
     }
 }
+

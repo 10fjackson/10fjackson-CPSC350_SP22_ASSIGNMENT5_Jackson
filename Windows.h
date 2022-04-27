@@ -34,21 +34,21 @@ private:
     ~Windows(){
 
     }
-    void updateTimeEmpty(int t){
+    void Windows::updateTimeEmpty(int t){
         timeEmpty = t;
     }
-    int getTimeEmpty(){
+    int Windows::getTimeEmpty(){
         return timeEmpty;
     }
-    void setBusy(Student *s){
+    void Windows::setBusy(Student *s){
         isEmpty = false;
         stu = s;
     }
-    void setEmpty(){
+    void Windows::setEmpty(){
         isEmpty = true;
         stu = NULL;
     }
-    bool isBusy(){
+    bool Windows::isBusy(){
         if(isEmpty){
             return false;
         }
@@ -56,14 +56,17 @@ private:
             return true;
         }
     }
-    bool isEmpty(){
+    bool Windows::isEmpty(){
         return isEmpty;
     }
-    int timeNeeded(){
+    int Windows::timeNeeded(){
         return stu->getWindowTime();
     }
-    void decreseWindowTime(){
+    void Windows::decreseWindowTime(){
         stu->updateWindowTime();
+    }
+    int Windows::getStudentWaitTime(){
+        return stu->getWaitTime();
     }
 
 #endif
