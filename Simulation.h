@@ -89,17 +89,16 @@ void Simulation::createSimulation(string text)
 {
     int i = 0;
     cap = text[i++];
-    cout << cap << endl;
     w = new Windows *[cap];
     for(int k = 0; k < cap; k++){
         w[i] = new Windows();
     }
     numOpenWindows = cap;
     time = text[i++];
-    cout<<time<<endl;
     while(i < text.length() || numOpenWindows != cap){
         //every loop is 1 minute passed/one tick on the world clock
         worldClock++;
+
         if(worldClock == time){
 
             numberStudents = text[i++];
@@ -145,11 +144,9 @@ void Simulation::createSimulation(string text)
 
         }
         else{
-            // cout << "Here" << endl;
             int p = 0;
             while(p < cap){
                 cout<<"ALL WINDOWS FULL"<<endl;
-
                 if(w[p]->isBusy()){
                     w[p]->decreseWindowTime();
                     //checks if student is finished using window
@@ -160,7 +157,6 @@ void Simulation::createSimulation(string text)
                     }
                     cout<<"window "<< p << " is busy"<<endl;
                 }
-
 
                 if(w[p]->isEmpty() && !(queue->isEmpty())){
                     //takes student out of queue
@@ -175,7 +171,6 @@ void Simulation::createSimulation(string text)
                 }
                 p++;
             }
-
             //updates the idle time of the open windows
             updateIdleTime(w);
             //updates the wait time of the people in the queue
@@ -184,7 +179,6 @@ void Simulation::createSimulation(string text)
             time = text[i++];
         }
     }
-
 
     printStatistics();
 
