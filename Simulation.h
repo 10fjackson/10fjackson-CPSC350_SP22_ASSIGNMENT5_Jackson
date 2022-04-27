@@ -58,6 +58,7 @@ private:
 //Default Constructor
 Simulation::Simulation()
 {
+    queue = new GenQueue<Student>();
 }
 //Default Destructor
 Simulation::~Simulation()
@@ -104,8 +105,10 @@ void Simulation::createSimulation(string text)
             numberStudents = text[i++];
             //adds the students to the queue with their wait times
             for(int j = 0; j < numberStudents; j++){
-                Student *s = new Student(text[i++]);
+                int windowTime = text[i++];
+                Student *s = new Student(windowTime);
                 queue->insert(s);
+                cout << queue->peak() << endl;
             }
 
             int c = 0;
