@@ -174,13 +174,8 @@ void Simulation::createSimulation(string text)
     }
 
 }
-<<<<<<< HEAD
 
 void Simulation::updateIdleTime(Windows **w){
-=======
-//updates the idle time of the open windows
-void updateIdleTime(Windows **w){
->>>>>>> 59cd294070bfda9ce8d78001a82ae8eb48733898
     for(int i = 0; i < cap; i++){
         if(w[i]->isEmpty()){
             w[i]->updateIdleTime();
@@ -198,7 +193,6 @@ void Simulation::updateWaitTime(GenQueue<Student> *q){
     }
 }
 
-<<<<<<< HEAD
 void Simulation::printStatistics(){
     cout << "Average student wait time = " << meanStudentWaitTime() << endl;
     cout << "Median student wait time = " << medianStudentWaitTime() << endl;
@@ -297,5 +291,3 @@ int Simulation::windowsOver5Min(){
     }
     return idle5Min;
 }
-=======
->>>>>>> 59cd294070bfda9ce8d78001a82ae8eb48733898
