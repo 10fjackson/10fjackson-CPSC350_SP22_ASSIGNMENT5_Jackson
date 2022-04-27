@@ -59,7 +59,9 @@ private:
 //Default Constructor
 Simulation::Simulation()
 {
-    //queue = new GenQueue<Student>();
+    queue = new GenQueue<Student*>();
+    waitTimes = new GenQueue<int>();
+    idleTimes = new GenQueue<int>();
 }
 //Default Destructor
 Simulation::~Simulation()
@@ -85,7 +87,6 @@ void Simulation::processFile(string file) //takes in a file from the command lin
         input += line;
         input += "\n";
     }
-        cout<< text <<endl;
     } else {
         cout << "Failed to open file"<<endl;
     }
@@ -131,8 +132,8 @@ void Simulation::createSimulation()
                     }
                     cout<<"window "<< c << " is busy"<<endl;
                 }
-
                 if(w[c]->isEmpty() && !(queue->isEmpty())){
+                    cout << "top of empty loop" << endl;
                     //takes student out of queue
                     Student *stu = queue->remove();
                     //how long they have been waiting
@@ -145,6 +146,7 @@ void Simulation::createSimulation()
                 }
                 c++;
             }
+
             //updates the idle time of the open windows
             updateIdleTime(w);
             //updates the wait time of the people in the queue
@@ -312,3 +314,4 @@ int Simulation::windowsOver5Min(){
     }
     return idle5Min;
 }
+//list sort function for median
