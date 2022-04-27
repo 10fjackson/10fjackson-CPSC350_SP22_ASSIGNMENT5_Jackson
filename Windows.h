@@ -1,7 +1,7 @@
 #ifndef WINDOWS_H
 #define WINDOWS_H
 #include "Student.h"
-
+using namespace std;
 class Windows{
 public:
     Windows();

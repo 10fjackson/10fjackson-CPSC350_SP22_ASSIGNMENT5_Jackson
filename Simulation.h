@@ -4,6 +4,7 @@
 #include "DoublyLinkedList.h"
 #include "Student.h"
 #include "Windows.h"
+using namespace std;
 //Creates Simulation class
 class Simulation
 {
