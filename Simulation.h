@@ -106,10 +106,8 @@ void Simulation::createSimulation(string text)
             numberStudents = text[i++];
             //adds the students to the queue with their wait times
             for(int j = 0; j < numberStudents; j++){
-                int windowTime = text[i++];
-                Student *s = new Student(windowTime);
+                Student *s = new Student(text[i++]);
                 queue->insert(s);
-                cout << queue->peak() << endl;
             }
 
             int c = 0;
@@ -185,6 +183,8 @@ void Simulation::createSimulation(string text)
     }
 
 }
+
+
 
 void Simulation::updateIdleTime(Windows **w){
     for(int i = 0; i < cap; i++){
