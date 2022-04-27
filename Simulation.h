@@ -58,6 +58,7 @@ private:
 //Default Constructor
 Simulation::Simulation()
 {
+    queue = new GenQueue<Student>();
 }
 //Default Destructor
 Simulation::~Simulation()
@@ -104,9 +105,10 @@ void Simulation::createSimulation(string text)
             numberStudents = text[i++];
             //adds the students to the queue with their wait times
             for(int j = 0; j < numberStudents; j++){
-                Student *s = new Student(text[i++]);
-                queue.insert(s);
-                cout << queue.peak() << endl;
+                int windowTime = text[i++];
+                Student *s = new Student(windowTime);
+                queue->insert(s);
+                cout << queue->peak() << endl;
             }
 
             int c = 0;
@@ -124,9 +126,9 @@ void Simulation::createSimulation(string text)
                     cout<<"window "<< c << " is busy"<<endl;
                 }
 
-                if(w[c]->isEmpty() && queue->!(isEmpty())){
+                if(w[c]->isEmpty() && queue->(!(isEmpty()))){
                     //takes student out of queue
-                    Student *stu = queue.remove();
+                    Student *stu = queue->remove();
                     //how long they have been waiting
                     waitTimes->insert(stu->getStudentWaitTime());
                     //adds the idle time of the window to the list before a student fills it
@@ -159,15 +161,15 @@ void Simulation::createSimulation(string text)
                     cout<<"window "<< p << " is busy"<<endl;
                 }
 
-                if(w[c]->isEmpty() && queue->!(isEmpty())){
+                if(w[c]->isEmpty() && queue->(!(isEmpty()))){
                     //takes student out of queue
-                    Student *stu = queue.remove();
+                    Student *stu = queue->remove();
                     //how long they have been waiting
-                    waitTimes->insert(stu->getStudentWaitTime());
+                    waitTimes->insert(stu->getWaitTime());
                     //adds the idle time of the window to the list before a student fills it
-                    idleTimes->insert(getTimeEmpty());
+                    idleTimes->insert(w.getTimeEmpty());
                     //puts them at window c
-                    w[p]->setBusy(queue.remove());
+                    w[p]->setBusy(queue->remove());
                     numOpenWindows--;
                 }
                 p++;
