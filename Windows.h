@@ -37,6 +37,7 @@ Windows::Windows(Student *s){
 Windows::~Windows(){
 
     }
+<<<<<<< HEAD
 void Windows::updateTimeEmpty(int t){
         timeEmpty = t;
     }
@@ -53,12 +54,31 @@ void Windows::setEmpty(){
     }
 bool Windows::isBusy(){
         if(isOpen){
+=======
+    void Windows::updateTimeEmpty(int t){
+        timeEmpty = t;
+    }
+    int Windows::getTimeEmpty(){
+        return timeEmpty;
+    }
+    void Windows::setBusy(Student *s){
+        isEmpty = false;
+        stu = s;
+    }
+    void Windows::setEmpty(){
+        isEmpty = true;
+        stu = NULL;
+    }
+    bool Windows::isBusy(){
+        if(isEmpty){
+>>>>>>> 59cd294070bfda9ce8d78001a82ae8eb48733898
             return false;
         }
         else{
             return true;
         }
     }
+<<<<<<< HEAD
 bool Windows::isEmpty(){
         return isOpen;
     }
@@ -66,7 +86,19 @@ int Windows::timeNeeded(){
         return stu->getWindowTime();
     }
 void Windows::decreseWindowTime(){
+=======
+    bool Windows::isEmpty(){
+        return isEmpty;
+    }
+    int Windows::timeNeeded(){
+        return stu->getWindowTime();
+    }
+    void Windows::decreseWindowTime(){
+>>>>>>> 59cd294070bfda9ce8d78001a82ae8eb48733898
         stu->updateWindowTime();
+    }
+    int Windows::getStudentWaitTime(){
+        return stu->getWaitTime();
     }
 
 #endif
