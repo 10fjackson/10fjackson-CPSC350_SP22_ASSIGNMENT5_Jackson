@@ -126,11 +126,11 @@ void Simulation::createSimulation(string text)
                     cout<<"window "<< c << " is busy"<<endl;
                 }
 
-                if(w[c]->isEmpty() && queue->(!(isEmpty()))){
+                if(w[c]->isEmpty() && !(queue->isEmpty())){
                     //takes student out of queue
                     Student *stu = queue->remove();
                     //how long they have been waiting
-                    waitTimes->insert(stu->getStudentWaitTime());
+                    waitTimes->insert(stu->getWaitTime());
                     //adds the idle time of the window to the list before a student fills it
                     idleTimes->insert(w[c]->getTimeEmpty());
                     //puts them at window c
@@ -161,13 +161,13 @@ void Simulation::createSimulation(string text)
                     cout<<"window "<< p << " is busy"<<endl;
                 }
 
-                if(w[c]->isEmpty() && queue->(!(isEmpty()))){
+                if(w[p]->isEmpty() && !(queue->isEmpty())){
                     //takes student out of queue
                     Student *stu = queue->remove();
                     //how long they have been waiting
                     waitTimes->insert(stu->getWaitTime());
                     //adds the idle time of the window to the list before a student fills it
-                    idleTimes->insert(w.getTimeEmpty());
+                    idleTimes->insert(w[p]->getTimeEmpty());
                     //puts them at window c
                     w[p]->setBusy(queue->remove());
                     numOpenWindows--;
@@ -185,7 +185,6 @@ void Simulation::createSimulation(string text)
 
 }
 
-//updates the idle time of the open windows
 void Simulation::updateIdleTime(Windows **w){
     for(int i = 0; i < cap; i++){
         if(w[i]->isEmpty()){

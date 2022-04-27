@@ -1,7 +1,6 @@
 #ifndef WINDOWS_H
 #define WINDOWS_H
-#include <iostream>
-using namespace std;
+#include "Student.h"
 
 class Windows{
 public:
@@ -39,8 +38,7 @@ Windows::Windows(Student *s){
 
 Windows::~Windows(){
 
-}
-
+    }
 void Windows::updateTimeEmpty(int t){
     timeEmpty = t;
 }
@@ -59,14 +57,13 @@ void Windows::setEmpty(){
 }
 
 bool Windows::isBusy(){
-    if(isOpen){
-        return false;
+        if(isOpen){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
-    else{
-        return true;
-    }
-}
-
 bool Windows::isEmpty(){
         return isOpen;
 }
