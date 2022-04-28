@@ -72,6 +72,7 @@ T GenQueue<T>::remove(){
 template <typename T>
 bool GenQueue<T>::isEmpty(){
   return (myArray->isEmpty());
+  //return (rear == NULL);
 }
 
 template <typename T>

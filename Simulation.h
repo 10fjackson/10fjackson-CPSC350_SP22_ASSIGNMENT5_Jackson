@@ -131,7 +131,7 @@ void Simulation::createSimulation()
                      w[c]->setEmpty();
                      numOpenWindows++;
                     }
-                    cout<<"Window "<< c << " is busy"<<endl;
+                    //cout<<"Window "<< c << " is busy"<<endl;
                 }
                 if(w[c]->isEmpty() && !(queue->isEmpty())){
                     //takes student out of queue
@@ -162,7 +162,6 @@ void Simulation::createSimulation()
         else{
             int p = 0;
             while(p < cap){
-                cout<<"ALL WINDOWS FULL"<<endl;
                 if(w[p]->isBusy()){
                     w[p]->decreseWindowTime();
                     //checks if student is finished using window
@@ -171,7 +170,6 @@ void Simulation::createSimulation()
                      w[p]->setEmpty();
                      numOpenWindows++;
                     }
-                    cout<<"Window "<< p << " is busy"<<endl;
                 }
                 if(w[p]->isEmpty() && !(queue->isEmpty())){
                     //takes student out of queue
@@ -184,7 +182,6 @@ void Simulation::createSimulation()
                     w[p]->setBusy(queue->remove());
                     numOpenWindows--;
                 }
-                // cout<<"after empty loop"<<endl;
                 p++;
             }
             //updates the idle time of the open windows
@@ -195,7 +192,15 @@ void Simulation::createSimulation()
             cout << queue -> getSize() << endl;
             //sets time to the next time
             if(!(text->isEmpty())){
-                time = text->remove();
+                numberStudents = text->remove();
+            }
+            //adds the students to the queue with their wait times
+            for(int j = 0; j < numberStudents; j++){
+                if(!(text->isEmpty())){
+                    Student *s = new Student(text->remove());
+                    queue->insert(s);
+                }
+
             }
         }
     }
