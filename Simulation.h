@@ -78,7 +78,6 @@ void Simulation::processFile(string file) //takes in a file from the command lin
     infile.open(file);
     int value = 0;
     if (infile.is_open() && infile.good()) { // checks if file is good
-        //cout << "File is now open!\nContains:\n";
         cout << "File is now open!"<<endl;
         string line = "";
         while (getline(infile, line)){
@@ -131,7 +130,7 @@ void Simulation::createSimulation()
                      w[c]->setEmpty();
                      numOpenWindows++;
                     }
-                    //cout<<"Window "<< c << " is busy"<<endl;
+                    cout<<"Window "<< c << " is busy"<<endl;
                 }
                 if(w[c]->isEmpty() && !(queue->isEmpty())){
                     //takes student out of queue
@@ -144,7 +143,6 @@ void Simulation::createSimulation()
                     idleTimes->insert(w[c]->getTimeEmpty());
                     //puts them at window c
                     w[c]->setBusy(stu);
-                    cout << "HERE " << w[c]->getTimeEmpty() << endl;
                     numOpenWindows--;
                 }
                 c++;
@@ -162,6 +160,7 @@ void Simulation::createSimulation()
         else{
             int p = 0;
             while(p < cap){
+                cout<<"ALL WINDOWS FULL"<<endl;
                 if(w[p]->isBusy()){
                     w[p]->decreseWindowTime();
                     //checks if student is finished using window
@@ -170,6 +169,7 @@ void Simulation::createSimulation()
                      w[p]->setEmpty();
                      numOpenWindows++;
                     }
+                    cout<<"Window "<< p << " is busy"<<endl;
                 }
                 if(w[p]->isEmpty() && !(queue->isEmpty())){
                     //takes student out of queue
@@ -186,21 +186,11 @@ void Simulation::createSimulation()
             }
             //updates the idle time of the open windows
             updateIdleTimes(w);
-            // cout << w << endl;
             //updates the wait time of the people in the queue
             updateWaitTimes(queue);
-            cout << queue -> getSize() << endl;
             //sets time to the next time
             if(!(text->isEmpty())){
-                numberStudents = text->remove();
-            }
-            //adds the students to the queue with their wait times
-            for(int j = 0; j < numberStudents; j++){
-                if(!(text->isEmpty())){
-                    Student *s = new Student(text->remove());
-                    queue->insert(s);
-                }
-
+                time = text->remove();
             }
         }
     }
