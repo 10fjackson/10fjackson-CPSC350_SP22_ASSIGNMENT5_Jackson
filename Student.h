@@ -42,6 +42,7 @@ private:
     }
 
     int Student::getWaitTime(){
+        // cout << waitTime << endl;
         return waitTime;
     }
 

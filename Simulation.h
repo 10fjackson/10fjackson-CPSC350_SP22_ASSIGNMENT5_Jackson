@@ -17,19 +17,19 @@ public:
     void processFile(string file);
     void createSimulation();
 
-    void updateWaitTime(GenQueue<Student*> *q);
-    void updateIdleTime(Windows **w);
+    void updateWaitTimes(GenQueue<Student*> *q);
+    void updateIdleTimes(Windows **w);
 
 
-    void printStatistics();
-    float meanStudentWaitTime();
-    int medianStudentWaitTime();
-    int maxStudentWaitTime();
-    int studentOver10Min();
+    void printStatistics(GenQueue<int> *waitTimes, GenQueue<int> *idleTimes);
+    float meanStudentWaitTime(GenQueue<int> *waitTimes);
+    int medianStudentWaitTime(GenQueue<int> *waitTimes);
+    int maxStudentWaitTime(GenQueue<int> *waitTimes);
+    int studentOver10Min(GenQueue<int> *waitTimes);
 
-    float meanIdleTime();
-    int maxIdleTime();
-    int windowsOver5Min();
+    float meanIdleTime(GenQueue<int> *idleTimes);
+    int maxIdleTime(GenQueue<int> *idleTimes);
+    int windowsOver5Min(GenQueue<int> *idleTimes);
 
 
 
@@ -97,7 +97,6 @@ void Simulation::processFile(string file) //takes in a file from the command lin
 void Simulation::createSimulation()
 {
     cap = text->remove();
-    cout<<cap<<endl;
     w = new Windows *[cap];
     for(int k = 0; k < cap; k++){
         w[k] = new Windows();
@@ -105,12 +104,9 @@ void Simulation::createSimulation()
     numOpenWindows = cap;
     time = text->remove();
     while(!(text->isEmpty()) || numOpenWindows != cap){
-        cout<<"TOP OF MAIN LOOP"<<endl;
         //every loop is 1 minute passed/one tick on the world clock
         worldClock++;
-        cout<<worldClock<<"  "<<time<<endl;
         if(worldClock == time){
-            cout<<"TOP OF TIME LOOP"<<endl;
             if(!(text->isEmpty())){
                 numberStudents = text->remove();
             }
@@ -138,7 +134,6 @@ void Simulation::createSimulation()
                     cout<<"Window "<< c << " is busy"<<endl;
                 }
                 if(w[c]->isEmpty() && !(queue->isEmpty())){
-                    cout << "top of empty loop" << endl;
                     //takes student out of queue
 
                     Student *stu = queue->remove();
@@ -149,15 +144,16 @@ void Simulation::createSimulation()
                     idleTimes->insert(w[c]->getTimeEmpty());
                     //puts them at window c
                     w[c]->setBusy(stu);
+                    cout << "HERE " << w[c]->getTimeEmpty() << endl;
                     numOpenWindows--;
                 }
                 c++;
             }
 
             //updates the idle time of the open windows
-            updateIdleTime(w);
+            updateIdleTimes(w);
             //updates the wait time of the people in the queue
-            updateWaitTime(queue);
+            updateWaitTimes(queue);
             if(!(text->isEmpty())){
                 time = text->remove();
             }
@@ -177,9 +173,7 @@ void Simulation::createSimulation()
                     }
                     cout<<"Window "<< p << " is busy"<<endl;
                 }
-                cout<<"before empty loop"<<endl;
                 if(w[p]->isEmpty() && !(queue->isEmpty())){
-                    cout<<"Inside empty window loop"<<endl;
                     //takes student out of queue
                     Student *stu = queue->remove();
                     //how long they have been waiting
@@ -190,13 +184,15 @@ void Simulation::createSimulation()
                     w[p]->setBusy(queue->remove());
                     numOpenWindows--;
                 }
-                cout<<"after empty loop"<<endl;
+                // cout<<"after empty loop"<<endl;
                 p++;
             }
             //updates the idle time of the open windows
-            updateIdleTime(w);
+            updateIdleTimes(w);
+            // cout << w << endl;
             //updates the wait time of the people in the queue
-            updateWaitTime(queue);
+            updateWaitTimes(queue);
+            cout << queue -> getSize() << endl;
             //sets time to the next time
             if(!(text->isEmpty())){
                 time = text->remove();
@@ -204,13 +200,13 @@ void Simulation::createSimulation()
         }
     }
 
-    printStatistics();
+    printStatistics(waitTimes, idleTimes);
 
 }
 
 
 
-void Simulation::updateIdleTime(Windows **w){
+void Simulation::updateIdleTimes(Windows **w){
     for(int i = 0; i < cap; i++){
         if(w[i]->isEmpty()){
             w[i]->updateIdleTime();
@@ -219,7 +215,7 @@ void Simulation::updateIdleTime(Windows **w){
 }
 
 //updates the wait time of the people in the queue
-void Simulation::updateWaitTime(GenQueue<Student*> *q){
+void Simulation::updateWaitTimes(GenQueue<Student*> *q){
     int i = 0;
     while(i < q->getSize()){
         Student *s = q->remove();
@@ -229,18 +225,18 @@ void Simulation::updateWaitTime(GenQueue<Student*> *q){
     }
 }
 
-void Simulation::printStatistics(){
-    cout << "Average student wait time = " << meanStudentWaitTime() << endl;
-    cout << "Median student wait time = " << medianStudentWaitTime() << endl;
-    cout << "Max student wait time = " << maxStudentWaitTime() << endl;
-    cout << "Number of students who waited over 10 minutes = " << studentOver10Min() << endl;
+void Simulation::printStatistics(GenQueue<int> *waitTimes, GenQueue<int> *idleTimes){
+    cout << "Average student wait time = " << meanStudentWaitTime(waitTimes) << endl;
+    cout << "Median student wait time = " << medianStudentWaitTime(waitTimes) << endl;
+    cout << "Max student wait time = " << maxStudentWaitTime(waitTimes) << endl;
+    cout << "Number of students who waited over 10 minutes = " << studentOver10Min(waitTimes) << endl;
 
-    cout << "Average window dile time = " << meanIdleTime() << endl;
-    cout << "Max window dile time = " << maxIdleTime() << endl;
-    cout << "Number of windows that were idle for over 5 minutes = " << windowsOver5Min() << endl;
+    cout << "Average window idle time = " << meanIdleTime(idleTimes) << endl;
+    cout << "Max window idle time = " << maxIdleTime(idleTimes) << endl;
+    cout << "Number of windows that were idle for over 5 minutes = " << windowsOver5Min(idleTimes) << endl;
 }
 
-float Simulation::meanStudentWaitTime(){
+float Simulation::meanStudentWaitTime(GenQueue<int> *waitTimes){
     int totalWaitTime = 0;
     int count = 0;
     while(count <= waitTimes->getSize()){
@@ -254,11 +250,11 @@ float Simulation::meanStudentWaitTime(){
     return averageWaitTime;
 }
 
-int Simulation::medianStudentWaitTime(){
-
+int Simulation::medianStudentWaitTime(GenQueue<int> *waitTimes){
+    return 0;
 }
 
-int Simulation::maxStudentWaitTime(){
+int Simulation::maxStudentWaitTime(GenQueue<int> *waitTimes){
     studentMaxWait = 0;
     int count = 0;
     while(count <= waitTimes->getSize()){
@@ -272,7 +268,7 @@ int Simulation::maxStudentWaitTime(){
     return studentMaxWait;
 }
 
-int Simulation::studentOver10Min(){
+int Simulation::studentOver10Min(GenQueue<int> *waitTimes){
     student10Min = 0;
     int count = 0;
     while(count <= waitTimes->getSize()){
@@ -286,44 +282,42 @@ int Simulation::studentOver10Min(){
     return student10Min;
 }
 
-float Simulation::meanIdleTime(){
+float Simulation::meanIdleTime(GenQueue<int> *idleTimes){
     int totalIdleTime = 0;
     int count = 0;
-    while(count <= idleTimes->getSize()){
-        int data = idleTimes -> remove();
-        totalIdleTime += data;
-        count++;
-        idleTimes->insert(data);
+    for(int i = 0; i < cap; i++){
+        if(w[i]->isEmpty()){
+            totalIdleTime += w[i]->getTimeEmpty();
+            count++;
+        }
     }
 
     averageIdleTime = totalIdleTime / count;
     return averageIdleTime;
 }
 
-int Simulation::maxIdleTime(){
+int Simulation::maxIdleTime(GenQueue<int> *idleTimes){
     maxIdle = 0;
     int count = 0;
-    while(count <= idleTimes->getSize()){
-        int data = idleTimes -> remove();
-        if(data > maxIdle){
-            maxIdle = data;
+    for(int i = 0; i < cap; i++){
+        if(w[i]->isEmpty()){
+            if(w[i]->getTimeEmpty() > maxIdle){
+                maxIdle = w[i]->getTimeEmpty();
+            }
         }
-        count++;
-        idleTimes->insert(data);
     }
     return maxIdle;
 }
 
-int Simulation::windowsOver5Min(){
+int Simulation::windowsOver5Min(GenQueue<int> *idleTimes){
     idle5Min = 0;
     int count = 0;
-    while(count <= idleTimes->getSize()){
-        int data = idleTimes -> remove();
-        if(data > 5){
-            idle5Min++;
+    for(int i = 0; i < cap; i++){
+        if(w[i]->isEmpty()){
+            if(w[i]->getTimeEmpty() > 5){
+                idle5Min++;
+            }
         }
-        count++;
-        idleTimes->insert(data);
     }
     return idle5Min;
 }
