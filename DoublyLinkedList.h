@@ -50,7 +50,7 @@ class DoublyLinkedList{
         T find(T value);
         bool isEmpty();
         unsigned int getSize();
-        ListNode<T>* getFront();
+        T getFront();
         ListNode<T>* getBack();
         void printList(bool isPrintLink);
 };
@@ -214,8 +214,8 @@ unsigned int DoublyLinkedList<T>::getSize(){
 }
 //return a listNode
 template <typename T>
-ListNode<T>* DoublyLinkedList<T>::getFront(){
-    return front;
+T DoublyLinkedList<T>::getFront(){
+    return front->data;
 }
 
 template <typename T>

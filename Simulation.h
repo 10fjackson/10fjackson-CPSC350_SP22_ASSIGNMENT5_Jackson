@@ -124,7 +124,7 @@ void Simulation::createSimulation()
                 int count = 0;
                 if(w[c]->isBusy()){
                     //decreases students needed time at the window by 1 because one minute has gone by
-                    w[c]->decreseWindowTime();
+                    w[c]->decreaseWindowTime();
                     //checks if student is finished using window
                     if(w[c]->timeNeeded() == 0){
                      w[c]->setEmpty();
@@ -162,7 +162,7 @@ void Simulation::createSimulation()
             while(p < cap){
                 cout<<"ALL WINDOWS FULL"<<endl;
                 if(w[p]->isBusy()){
-                    w[p]->decreseWindowTime();
+                    w[p]->decreaseWindowTime();
                     //checks if student is finished using window
                     if(w[p]->timeNeeded() == 0){
                     //if student is finished then it sets the window to empty and number of open windows increases
@@ -214,7 +214,7 @@ void Simulation::updateWaitTimes(GenQueue<Student*> *q){
     int i = 0;
     while(i < q->getSize()){
         Student *s = q->remove();
-        s->updateWindowTime();
+        s->updateWaitTime();
         q->insert(s);
         i++;
     }

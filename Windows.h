@@ -15,7 +15,7 @@ public:
     int timeNeeded();
     int getTimeEmpty();
     bool isBusy();
-    void decreseWindowTime();
+    void decreaseWindowTime();
     int getStudentWaitTime();
     void updateIdleTime();
 
@@ -73,9 +73,10 @@ int Windows::timeNeeded(){
         return stu->getWindowTime();
 }
 
-void Windows::decreseWindowTime(){
+void Windows::decreaseWindowTime(){
         stu->updateWindowTime();
 }
+
 void Windows::updateIdleTime(){
     timeEmpty++;
 }
