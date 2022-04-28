@@ -190,8 +190,16 @@ void Simulation::createSimulation()
             updateWaitTimes(queue);
             //sets time to the next time
             if(!(text->isEmpty())){
-                time = text->remove();
-            }
+               numberStudents = text->remove();
+           }
+           //adds the students to the queue with their wait times
+           for(int j = 0; j < numberStudents; j++){
+               if(!(text->isEmpty())){
+                   Student *s = new Student(text->remove());
+                   queue->insert(s);
+               }
+
+           }
         }
     }
 
